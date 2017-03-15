@@ -48,6 +48,18 @@
                                               (map (partial cons val))
                                               (mat/matrix)))
 
+(defn- gradient-descent [steps, feature, y, theta] (iterate (range (0, steps))
+                                  ))
+
+(defn- gradient-descent-step [learningRate, feature, y, theta]
+  (let [difference (mat/sub (mat/mul feature theta) y)]
+  (-> feature
+      (mat/transpose)
+      (mat/mul difference)
+      (mat/mul (/ learningRate (mat/row-count y)))
+      (->>
+          (mat/sub theta)))))
+
 (defn -main []
   (let [data (readfile "auto-mpg.data.txt")
         y (mat/matrix (map #(get-columns % [0]) data))
