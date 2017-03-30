@@ -89,14 +89,14 @@
         y (mat/matrix (map #(get-columns % [0]) data))
         x (mat/matrix (map #(get-columns % (range 1 7)) data))]
     (prn (last
-      (gradient-descent 600 0.05
-                        (prepend-column-value (mean-normalize x) 1.)
-                        y
-                        (mat/zero-matrix 7 1))))
+          (gradient-descent 600 0.05
+                            (prepend-column-value (mean-normalize x) 1.)
+                            y
+                            (mat/zero-matrix 7 1))))))
     ;;(mat/pm x)
     ;;(mat/pm (max-row x))
     ;;(mat/pm (mean-row x))
     ;;(mat/pm (mean-normalize x))
     ;;(mat/pm (prepend-column-value x 1.))
     ;;(println y)
-    ))
+

@@ -6,8 +6,10 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clatrix "0.5.0"]
                  [org.clojure/data.csv "0.1.3"]
-                 [org.clojure/tools.trace "0.7.9"]]
+                 [org.clojure/tools.trace "0.7.9"]
+                 [org.jzy3d/jzy3d-api "1.0.1-SNAPSHOT"]]
   :plugins [[lein-environ "1.1.0"]]
   :main ^:skip-aot mlclojure.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}}
+  :repositories { "Jzy3d Snapshots" "http://maven.jzy3d.org/snapshots"})
