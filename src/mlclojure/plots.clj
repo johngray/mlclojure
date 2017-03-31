@@ -20,7 +20,7 @@
     (doto panel
       (.setBorder line-border)
       (.add (cast Component (.getCanvas chart)) (cast Object BorderLayout/CENTER)))
-    (doto frame
+    (doto @frame
       (.add panel "cell 0 0, grow"))))
 
 
@@ -49,5 +49,5 @@
        (.setColor color)
        (.add coords))
    (add-chart))
-  (.setVisible frame true))
+  (.setVisible @frame true))
 
