@@ -7,12 +7,25 @@
            (javax.swing JFrame JPanel BorderFactory)
            (java.awt BorderLayout Component)))
 
-(defn- frame (atom nil))
+(def ^{:private true} frame (atom nil))
 
-(defn- update-frame[new-frame]
+(defn- update-frame [new-frame]
   (compare-and-set! frame nil new-frame))
 
-(defn- add-chart
+
+(defn init! [& {:keys [^String lines ^String columns ^String title]
+                :or {lines "[300px]"
+                     columns "[500px,grow]"
+                     title "Plot"}}]
+  (LookAndFeel/apply)
+  (doto (JFrame.)
+    (.setTitle title)
+    (.setLayout (MigLayout. "" lines columns))
+    (.pack)
+    (update-frame)))
+
+
+(defn- add-chart!
   [chart]
   (let [layout (BorderLayout.)
         panel (JPanel. layout)
@@ -23,16 +36,9 @@
     (doto @frame
       (.add panel "cell 0 0, grow"))))
 
-
-(defn init! [& {:keys [^String lines  ^String columns]
-                :or {lines "[300px]"
-                     columns "[500px,grow]"}}]
-  (let [layout (MigLayout. "" lines columns)]
-    (LookAndFeel/apply)
-    (doto (JFrame.)
-      (.setLayout layout)
-      (.pack)
-      (update-frame))))
+(defn- add-coords! [^Serie2d serie coords]
+  (doseq [[^Float x ^Float y] coords]
+    (.add serie x y))
 
 (defn draw-plot [coords & {:keys [max-x max-y min-y label-x label-y label-serie color]
                            :or {
@@ -43,11 +49,13 @@
                                 label-y "Y"
                                 label-serie "Line"
                                 color Color/RED}}]
-  (doto (Chart2d.)
-   (.asTimeChart max-x min-y max-y label-x label-y)
-   (-> (.getSerie label-serie Serie2d$Type/LINE)
-       (.setColor color)
-       (.add coords))
-   (add-chart))
-  (.setVisible @frame true))
+  (let [chart (Chart2d.)]
+    (doto chart
+      (.asTimeChart max-x min-y max-y label-x label-y)
+      (-> (.getSerie label-serie Serie2d$Type/LINE)
+          (.setColor color)
+          (add-coords! coords)))
+    (add-chart! chart)
+    (.pack @frame)
+    (.setVisible @frame true))))
 
