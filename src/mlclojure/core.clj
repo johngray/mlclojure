@@ -3,7 +3,8 @@
   (:require [clojure.core.matrix :as mat]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            [mlclojure.plots :as plots]))
+            [mlclojure.plots :as plots])
+  (:import (org.jzy3d.colors Color)))
 
 (mat/set-current-implementation :clatrix)
 
@@ -104,7 +105,7 @@
     (def coords (map-indexed vector costs))
     (prn coords)
     (plots/init!)
-    (plots/draw-plot coords :max-x 700 :max-y 350)))
+    (plots/draw-plot coords :max-x 700 :max-y 350 :color Color/GREEN)))
     ;;(mat/pm x)
     ;;(mat/pm (max-row x))
     ;;(mat/pm (mean-row x))

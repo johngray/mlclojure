@@ -5,9 +5,10 @@
            (org.jzy3d.ui LookAndFeel)
            (net.miginfocom.swing MigLayout)
            (javax.swing JFrame JPanel BorderFactory)
-           (java.awt BorderLayout Component))
-  (:require [debugger.core :as d]
-            [clojure.tools.trace :as t]))
+           (java.awt BorderLayout Component)
+           (org.jzy3d.plot3d.primitives.axes.layout.providers SmartTickProvider)
+           (org.jzy3d.plot3d.primitives.axes.layout.renderers IntegerTickRenderer))
+  (:require [clojure.tools.trace :as t]))
 
 (def ^{:private true} frame (atom nil))
 
@@ -23,7 +24,7 @@
   (doto (JFrame.)
     (.setTitle title)
     (.setLayout (MigLayout. "" columns lines))
-    (.pack)
+    (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)
     (update-frame)))
 
 
@@ -48,6 +49,17 @@
       (.setColor serie color)
       (add-coords! serie coords)))
 
+(defn- init-axes!
+  [^Chart2d chart]
+  (let [axe (.getAxeLayout chart)]
+    (.setXTickProvider axe (SmartTickProvider.))
+    (.setXTickRenderer axe (IntegerTickRenderer.))))
+
+(defn- clear-frame!
+  []
+  (.removeAll
+    (.getContentPane @frame)))
+
 (defn draw-plot
   [coords & {:keys [max-x max-y min-y label-x label-y label-serie color]
              :or {
@@ -61,8 +73,10 @@
   {:pre [(some? @frame)
          (some? coords)]}
   (let [chart (Chart2d.)]
+    (clear-frame!)
     (doto chart
       (.asTimeChart max-x min-y max-y label-x label-y)
+      (init-axes!)
       (init-serie! label-serie color coords)
       (add-chart!))
     (.pack @frame)
