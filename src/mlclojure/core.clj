@@ -2,7 +2,8 @@
   (:gen-class)
   (:require [clojure.core.matrix :as mat]
             [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [mlclojure.plots :as plots]))
 
 (mat/set-current-implementation :clatrix)
 
@@ -82,17 +83,28 @@
         (iterate (partial gradient-descent-step learning-rate feature y)
                  theta)))
 
+(defn- cost-function [feature, y, theta]
+  (let [difference (mat/sub (mat/mmul feature theta) y)]
+    (-> difference
+        (mat/transpose)
+        (mat/mmul difference)
+        (mat/div (* 2 (mat/row-count y)))
+        (mat/mget 0 0))))
+
 
 (defn -main
   []
   (let [data (readfile "auto-mpg.data.txt")
         y (mat/matrix (map #(get-columns % [0]) data))
-        x (mat/matrix (map #(get-columns % (range 1 7)) data))]
-    (prn (last
-          (gradient-descent 600 0.05
-                            (prepend-column-value (mean-normalize x) 1.)
-                            y
-                            (mat/zero-matrix 7 1))))))
+        x (mat/matrix (map #(get-columns % (range 1 7)) data))
+        feature (prepend-column-value (mean-normalize x) 1.)]
+    (do
+      (def thetas (gradient-descent 600 0.05 feature y (mat/zero-matrix 7 1)))
+      (def costs (map #(cost-function feature y %) thetas))
+      (def coords (map-indexed vector costs))
+      (prn coords)
+      (plots/init!)
+      (plots/draw-plot coords :max-x 700 :max-y 350))))
     ;;(mat/pm x)
     ;;(mat/pm (max-row x))
     ;;(mat/pm (mean-row x))
