@@ -1,36 +1,19 @@
 # mlclojure
 
-FIXME: description
+A simple implementation of basic Machine Learning algorithms using clojure with some simple datasets.
+At some later it will contain features like plotting of learning curves, cost functions etc.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+1. Clone the repo.
+2. Install [leiningen](https://leiningen.org).
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar mlclojure-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+Just `lein run` in the console.
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright © 2017 Pavel Tumilovich
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the MIT License of any later version.
