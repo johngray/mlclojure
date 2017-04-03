@@ -5,7 +5,9 @@
            (org.jzy3d.ui LookAndFeel)
            (net.miginfocom.swing MigLayout)
            (javax.swing JFrame JPanel BorderFactory)
-           (java.awt BorderLayout Component)))
+           (java.awt BorderLayout Component))
+  (:require [debugger.core :as d]
+            [clojure.tools.trace :as t]))
 
 (def ^{:private true} frame (atom nil))
 
@@ -32,13 +34,19 @@
         line-border (BorderFactory/createLineBorder java.awt.Color/WHITE)]
     (doto panel
       (.setBorder line-border)
-      (.add (cast Component (.getCanvas chart)) (cast Object BorderLayout/CENTER)))
+      (.add (.getCanvas chart) BorderLayout/CENTER))
     (doto @frame
       (.add panel "cell 0 0, grow"))))
 
 (defn- add-coords! [^Serie2d serie coords]
   (doseq [[^Float x ^Float y] coords]
-    (.add serie x y))
+    (.add serie x y)))
+
+(defn- init-serie!
+  [^Chart2d chart label color coords]
+  (let [serie (.getSerie chart label Serie2d$Type/LINE)]
+      (.setColor serie color)
+      (add-coords! serie coords)))
 
 (defn draw-plot [coords & {:keys [max-x max-y min-y label-x label-y label-serie color]
                            :or {
@@ -52,10 +60,8 @@
   (let [chart (Chart2d.)]
     (doto chart
       (.asTimeChart max-x min-y max-y label-x label-y)
-      (-> (.getSerie label-serie Serie2d$Type/LINE)
-          (.setColor color)
-          (add-coords! coords)))
-    (add-chart! chart)
+      (init-serie! label-serie color coords)
+      (add-chart!))
     (.pack @frame)
-    (.setVisible @frame true))))
+    (.setVisible @frame true)))
 
