@@ -8,7 +8,6 @@
                  [clatrix "0.5.0"]
                  [org.clojure/data.csv "0.1.3"]
                  [org.clojure/tools.trace "0.7.9"]
-                 [debugger "0.2.0"]
                  [org.jzy3d/jzy3d-api "1.0.1-SNAPSHOT"]]
   :plugins [[lein-environ "1.1.0"]
             [lein-kibit "0.1.3"]]

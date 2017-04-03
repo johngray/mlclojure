@@ -46,8 +46,8 @@
 (defn- init-serie!
   [^Chart2d chart label color coords]
   (let [serie (.getSerie chart label Serie2d$Type/LINE)]
-      (.setColor serie color)
-      (add-coords! serie coords)))
+    (.setColor serie color)
+    (add-coords! serie coords)))
 
 (defn- init-axes!
   [^Chart2d chart]
