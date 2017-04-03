@@ -16,13 +16,13 @@
 
 
 (defn init! [& {:keys [^String lines ^String columns ^String title]
-                :or {lines "[300px]"
+                :or {lines "[300px,grow]"
                      columns "[500px,grow]"
                      title "Plot"}}]
   (LookAndFeel/apply)
   (doto (JFrame.)
     (.setTitle title)
-    (.setLayout (MigLayout. "" lines columns))
+    (.setLayout (MigLayout. "" columns lines))
     (.pack)
     (update-frame)))
 
@@ -48,15 +48,18 @@
       (.setColor serie color)
       (add-coords! serie coords)))
 
-(defn draw-plot [coords & {:keys [max-x max-y min-y label-x label-y label-serie color]
-                           :or {
-                                max-x 10.
-                                max-y 100.
-                                min-y 0.
-                                label-x "X"
-                                label-y "Y"
-                                label-serie "Line"
-                                color Color/RED}}]
+(defn draw-plot
+  [coords & {:keys [max-x max-y min-y label-x label-y label-serie color]
+             :or {
+                  max-x 10.
+                  max-y 100.
+                  min-y 0.
+                  label-x "X"
+                  label-y "Y"
+                  label-serie "Line"
+                  color Color/RED}}]
+  {:pre [(some? @frame)
+         (some? coords)]}
   (let [chart (Chart2d.)]
     (doto chart
       (.asTimeChart max-x min-y max-y label-x label-y)
