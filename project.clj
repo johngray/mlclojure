@@ -1,5 +1,6 @@
 (defproject mlclojure "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "A simple implementation of basic Machine Learning algorithms using clojure with some simple datasets.
+                At some later it will contain features like plotting of learning curves, cost functions etc."
   :url "https://github.com/johngray/mlclojure"
   :license {:name "MIT License"
             :url "http://www.opensource.org/licenses/mit-license.php"}
