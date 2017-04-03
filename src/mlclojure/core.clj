@@ -98,13 +98,13 @@
         y (mat/matrix (map #(get-columns % [0]) data))
         x (mat/matrix (map #(get-columns % (range 1 7)) data))
         feature (prepend-column-value (mean-normalize x) 1.)]
-    (do
-      (def thetas (gradient-descent 600 0.05 feature y (mat/zero-matrix 7 1)))
-      (def costs (map #(cost-function feature y %) thetas))
-      (def coords (map-indexed vector costs))
-      (prn coords)
-      (plots/init!)
-      (plots/draw-plot coords :max-x 700 :max-y 350))))
+    (def thetas
+      (gradient-descent 600 0.05 feature y (mat/zero-matrix 7 1)))
+    (def costs (map #(cost-function feature y %) thetas))
+    (def coords (map-indexed vector costs))
+    (prn coords)
+    (plots/init!)
+    (plots/draw-plot coords :max-x 700 :max-y 350)))
     ;;(mat/pm x)
     ;;(mat/pm (max-row x))
     ;;(mat/pm (mean-row x))
