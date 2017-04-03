@@ -16,4 +16,4 @@
   :profiles {:uberjar {:aot :all}}
   :repositories [["Jzy3d Snapshots" "http://maven.jzy3d.org/snapshots"]
                  ["Jzy3d Releases" "http://maven.jzy3d.org/releases"]]
-  :source-paths ["src/mlclojure"])
+  :source-paths ["src"])
