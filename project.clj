@@ -8,7 +8,8 @@
                  [clatrix "0.5.0"]
                  [org.clojure/data.csv "0.1.3"]
                  [org.clojure/tools.trace "0.7.9"]
-                 [org.jzy3d/jzy3d-api "1.0.1-SNAPSHOT"]]
+                 [org.jzy3d/jzy3d-api "1.0.1-SNAPSHOT"]
+                 [instaparse "1.4.5"]]
   :plugins [[lein-environ "1.1.0"]
             [lein-kibit "0.1.3"]]
   :main ^:skip-aot mlclojure.core
