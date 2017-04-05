@@ -8,10 +8,10 @@
 
 (mat/set-current-implementation :clatrix)
 
-(def ^{:private true} split-by-space
+(def ^:private split-by-space
   #(str/split (str/trim %) #"\s+"))
 
-(def ^{:private true} take-only-necessary
+(def ^:private take-only-necessary
   #(take 7 %))
 
 (defn- number-or-default
@@ -19,7 +19,7 @@
   (let [n (read-string str)]
     (if (number? n) n default)))
 
-(def ^{:private true} convert-to-numbers
+(def ^:private convert-to-numbers
   #(map
      (fn [str] (number-or-default str 0.)) %))
 
@@ -112,4 +112,3 @@
     ;;(mat/pm (mean-normalize x))
     ;;(mat/pm (prepend-column-value x 1.))
     ;;(println y)
-
